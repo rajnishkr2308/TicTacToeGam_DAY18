@@ -2,6 +2,7 @@ package com.tictocgame;
 import java.util.Scanner;
 
 public class TicTacToeGame {
+    Scanner scanner = new Scanner(System.in);
     //UC1:
     public char[] CreateEmptyBoard(char[] board) {
         /*
@@ -22,7 +23,6 @@ public class TicTacToeGame {
         /*
          * Taking input from User to choose either 'X' or 'O'.
          */
-        Scanner scanner = new Scanner(System.in);
         System.out.println("Choose the Letter 'X' or 'O' :-");
         char letter = scanner.next().charAt(0);
         if (letter == 'X' || letter =='O') {
@@ -48,6 +48,25 @@ public class TicTacToeGame {
         }
         System.out.println();
     }
+    //UC4:
+    public void findUserLocation(char playerLetter, char[] board) {
+        /*
+         * User to make a move to a desired location in the board.
+         * Select the index from 1 to 9 to make the move.
+         * Ensure the index is Free.
+         */
+        System.out.println("Enter the position where you want to make a move : ");
+        int playerPosition = scanner.nextInt();
+
+        if (playerPosition > 0 && playerPosition < 10) {
+            if (board[playerPosition] == '_' ) {
+                board[playerPosition] = playerLetter;
+            }else {
+                System.out.println("Position is Already Occupied !!");
+            }
+        }else
+            System.out.println("Invalid. Please Select the Valid Position");
+    }
 
     public static void main(String[] args) {
         System.out.println("Welcome to Tic Tac Toe Game");
@@ -68,7 +87,7 @@ public class TicTacToeGame {
          */
         char playerLetter = ticTacToeGame.chooseLetter();
         char computerLetter;
-        if (playerLetter == 'X' )
+        if (playerLetter == 'X')
             computerLetter = 'O';
         else
             computerLetter = 'X';
@@ -82,6 +101,28 @@ public class TicTacToeGame {
             if (i != 0)
                 board[i] = '_';
         }
-        ticTacToeGame.showBoard(board);
+//UC4:
+        /*
+         * Using Switch Case ,we can select the options given below.
+         * call method to find the Player position on board.
+         */
+        boolean flag = true;
+        while (flag) {
+            System.out.println("---Select the below options---");
+            System.out.println("1.  To Continue the Game \n2.  To view the Current Board \n3.  Quit the Game");
+            System.out.println("Enter the option : ");
+            int option = scanner.nextInt();
+            switch (option){
+                case 1:
+                    ticTacToeGame.findUserLocation(playerLetter,board);
+                    break;
+                case 2:
+                    ticTacToeGame.showBoard(board);
+                    break;
+                case 3:
+                    flag = false;
+                    break;
+            }
+        }
     }
 }
